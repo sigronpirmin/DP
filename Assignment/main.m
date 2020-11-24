@@ -89,7 +89,7 @@ K=size(stateSpace,1);
 transitionProbabilitiesImplemented = true;
 stageCostsImplemented = true;
 valueIterationImplemented = false; 
-policyIterationImplemented = false;
+policyIterationImplemented = true;
 linearProgrammingImplemented = false;
 
 %% Compute the terminal state index
@@ -137,6 +137,8 @@ if valueIterationImplemented
     end
 end
 if policyIterationImplemented
+    G = load('example_G').G;
+    P = load('example_P').P;
     disp('Solve stochastic shortest path problem with Policy Iteration');
     
     % TODO: Question d)

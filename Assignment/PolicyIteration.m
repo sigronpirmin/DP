@@ -46,24 +46,32 @@ u_opt_ind = ones(K,1)*5;
 u_pol = ones(K,1)*5;
 
 % helper matrices
-P_inter = zeros(K);
+P_inter = zeros(K-1,K);
 G_inter = zeros(K,1);
+
+identM = eye(K);
+identM(TERMINAL_STATE_INDEX,:) = [];
 
 iter = 0;
 while(1)
     iter = iter + 1;
+    for i = 1:K-1
+    	P_inter(i,:) = P(i,:,u_opt_ind(i));
+    end
     for i  = 1:K
-        P_inter(i,:) = P(i,:,u_opt_ind(i));
         G_inter(i) = G(i,u_opt_ind(i));
     end
-    
-    J_h = (eye(K) - P_inter) \ G_inter;
-    % update cost
+
+    J_h = (identM' - P_inter') \ G_inter;
+    J_h = [J_h(1:TERMINAL_STATE_INDEX-1);0;J_h(TERMINAL_STATE_INDEX:K-1)];
+    J_h(J_h < 0) = 0;
+    % policy evaluation
     for k = 1:K
         if k ~= TERMINAL_STATE_INDEX
             [J_opt(k), u_pol(k)] = min(G(k,:)' + squeeze(P(k,:,:))'*J_h(:));
         end
     end
+
     if sum(u_opt_ind ~= u_pol)
         u_opt_ind = u_pol;
     else
