@@ -99,6 +99,9 @@ for in = 1:5
         % probability of crashing
         P(from,baseIndex,in) = P(from,baseIndex,in) + (1 - sum(P(from,:,in)));
     end
+    % Terminal state
+    P(TERMINAL_STATE_INDEX,:,in) = 0;
+    P(TERMINAL_STATE_INDEX,TERMINAL_STATE_INDEX,in) = 1;
 end
 
 end

@@ -73,10 +73,7 @@ function G = ComputeStageCosts(stateSpace, map)
                         end
                     end
                     % due to shooting at x_des
-                    %%% EDIT: Here no additional wind shift for distance?
-                    %dist = abs(m_res - m_des + abs(n_res - n_des); 
-                    %%%
-                    dist = abs(m_res - (m_des+chIn(1,i))) + abs(n_res - (n_des+chIn(2,i)));   
+                    dist = abs(m_res - m_des) + abs(n_res - n_des);   
                     for res = 1:length(dist)
                         if dist(res) <= R
                             P_crash = P_crash + (1 - P_WIND) * GAMMA / (dist(res)+1);

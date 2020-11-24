@@ -89,7 +89,7 @@ K=size(stateSpace,1);
 transitionProbabilitiesImplemented = true;
 stageCostsImplemented = true;
 valueIterationImplemented = false; 
-policyIterationImplemented = true;
+policyIterationImplemented = false;
 linearProgrammingImplemented = false;
 
 %% Compute the terminal state index
