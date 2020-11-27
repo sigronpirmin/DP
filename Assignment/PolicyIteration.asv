@@ -1,4 +1,4 @@
-function [ J_opt, u_opt_ind ] = PolicyIteration(P, G)
+function [ J_opt, u_opt_inter ] = PolicyIteration(P, G)
 %POLICYITERATION Policy iteration
 %   Solve a stochastic shortest path problem by Policy Iteration.
 %
@@ -65,7 +65,7 @@ while(1)
         G_inter(i) = G(i,u_opt_inter(i));
     end
 
-    J_h = (identM - P_inter) \ G_inter;
+    J_h = (identM' - P_inter') \ G_inter;
 
     % policy evaluation
     for k = 1:K-1
@@ -82,6 +82,6 @@ while(1)
 
 end
     
-J_opt = [J_inter(1:TERMINAL_STATE_INDEX-1);0;J_inter(TERMINAL_STATE_INDEX:end)];
-u_opt_ind = [u_opt_inter(1:TERMINAL_STATE_INDEX-1);HOVER;u_opt_inter(TERMINAL_STATE_INDEX:end)];
+    J_opt = [J_inter(1:TERMINAL_STATE_INDEX-1);0;J_inter(TERMINAL_STATE_INDEX:end)];
+    u_opt_ind = [u_opt_inter(1:TERMINAL_STATE_INDEX-1);HOVER;u_opt_inter(TERMINAL_STATE_INDEX:end)];
 end

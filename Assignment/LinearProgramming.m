@@ -36,41 +36,43 @@ global K HOVER
 global TERMINAL_STATE_INDEX
 % IMPORTANT: You can use the global variable TERMINAL_STATE_INDEX computed
 % in the ComputeTerminalStateIndex.m file (see main.m)
-G(TERMINAL_STATE_INDEX,:) = zeros(5,1);
+G(TERMINAL_STATE_INDEX,:) = [];
+P(TERMINAL_STATE_INDEX,:,:) = [];
+P(:,TERMINAL_STATE_INDEX,:) = [];
 
 
 % initialize optimal cost
 J_opt = zeros(K,1);
-J_togo = zeros(K,1);
+J_togo = zeros(K-1,1);
 
 % initialize optimal policy
 u_opt_ind = ones(K,1);
+u_pol = ones(K-1,1);
 
-% helper functions
-u_opt_help = zeros(K,5);
-J_help = zeros(K,5);
-iter = 0;
+f = ones(K-1,1) * -1;
 
-while(1)
+A = [];
+b = [];
+for in = 1:5
+    A = [A; eye(K-1) - P(:,:,in)];
+    b = [b; G(:,in)];
+end
     
-    iter = iter + 1;
-    
-    for in = 1:5
-        A = G(:,in) + sum(P(:,:,in).*J_togo);
-        b = J_opt;
-        f = J_opt;
-        [u_opt_help(:,in), J_help(:,in)] = linprog(f,A,b');
-    end
-    [J_opt, u_opt_ind] = max(J_help,[],2);
-    
+% Remove transitions with infinite cost
+A(b==Inf,:) = [];
+b(b==Inf) = [];
 
-        
-    
+J_togo = linprog(f,A,b');
+
+% Policy improvement for optimal policy
+for j = 1:K-1
+    [~, u_pol(j)] = min(G(j,:)' + squeeze(P(j,:,:))'*J_togo(:));
 end
     
     
 
-
+J_opt = [J_togo(1:TERMINAL_STATE_INDEX-1);0;J_togo(TERMINAL_STATE_INDEX:end)];
+u_opt_ind = [u_pol(1:TERMINAL_STATE_INDEX-1);HOVER;u_pol(TERMINAL_STATE_INDEX:end)];
 
 end
 

@@ -23,12 +23,12 @@ clc;
 mapSize = [15, 20];
 % Set to true to generate a random map of size mapSize, else set to false 
 % to load the pre-exsisting example map
-generateRandomWorld = false;
+generateRandomWorld = true;
 
 % Plotting options
 global PLOT_POLICY PLOT_COST
 PLOT_POLICY = true;
-PLOT_COST = false;
+PLOT_COST = true;
 
 %% Global problem parameters
 % IMPORTANT: Do not add or remove any global parameter in main.m
@@ -88,9 +88,9 @@ K=size(stateSpace,1);
 %% Set the following to true as you progress with the files
 transitionProbabilitiesImplemented = true;
 stageCostsImplemented = true;
-valueIterationImplemented = false; 
+valueIterationImplemented = true; 
 policyIterationImplemented = true;
-linearProgrammingImplemented = false;
+linearProgrammingImplemented = true;
 
 %% Compute the terminal state index
 global TERMINAL_STATE_INDEX
@@ -137,8 +137,6 @@ if valueIterationImplemented
     end
 end
 if policyIterationImplemented
-    G = load('example_G').G;
-    P = load('example_P').P;
     disp('Solve stochastic shortest path problem with Policy Iteration');
     
     % TODO: Question d)
