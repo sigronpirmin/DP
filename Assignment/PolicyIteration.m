@@ -46,7 +46,7 @@ J_opt = zeros(K,1);
 J_inter = zeros(K-1,1);
 
 % initialize optimal policy
-u_opt_innd = ones(K,1)*5;
+u_opt_ind = ones(K,1)*5;
 u_opt_inter = ones(K-1,1)*5;
 u_pol = ones(K-1,1)*5;
 

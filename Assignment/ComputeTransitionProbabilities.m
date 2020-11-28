@@ -39,7 +39,7 @@ baseIndex = find(stateSpace(:,1) == m_base & stateSpace(:,2) == n_base & stateSp
 m = length(map(:,1));
 n = length(map(1,:));
 
-% change in state for each input
+% movement on map for each input
 chIn = [0 0 1 -1 0;1 -1 0 0 0];         % first column change in m, second change in n
 %  iterate over all admissible inputs
 for in = 1:5
